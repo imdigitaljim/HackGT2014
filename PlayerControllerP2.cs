@@ -1,15 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerControllerP2 : MonoBehaviour {
+public class PlayerControllerP2 : MonoBehaviour
+{
 
-	// Use this for initialization
+    // Use this for initialization
     public float speed = 2;
     public int playerHealth;
+    private bool offCoolDown;
     private Transform player;
     public Transform shot;
+    private float cooldownTimer;
+    public float weaponCoolDown;
     void Start()
     {
+        cooldownTimer = 0;
+        offCoolDown = true;
         playerHealth = 10;
         player = GetComponent<Transform>();
 
@@ -20,13 +26,27 @@ public class PlayerControllerP2 : MonoBehaviour {
     {
         rigidbody2D.velocity = Vector2.zero;
         KeyPressMovement();
-        if (Input.GetKeyDown(KeyCode.Keypad0))
+        if (GameStart.combat && offCoolDown)
         {
-            Instantiate(shot, new Vector3(player.position.x, player.localPosition.y, player.position.z), player.rotation);
+            if (Input.GetKeyDown(KeyCode.Keypad0))
+            {
+                Instantiate(shot, new Vector3(player.position.x, player.localPosition.y, player.position.z), player.rotation);
+                offCoolDown = false;
+            }
         }
         if (playerHealth <= 0)
         {
             Application.LoadLevel("player1win");
+        }
+        if (!offCoolDown)
+        {
+            Debug.Log(cooldownTimer);
+            cooldownTimer += Time.deltaTime;
+            if (cooldownTimer > weaponCoolDown)
+            {
+                offCoolDown = true;
+                cooldownTimer = 0;
+            }
         }
     }
 
@@ -49,7 +69,6 @@ public class PlayerControllerP2 : MonoBehaviour {
         {
 
             rigidbody2D.velocity = new Vector2(x * speed, y * speed);
-
             if (x < 0)
             {
                 player.eulerAngles = new Vector3(player.rotation.x, player.rotation.y, 270);
