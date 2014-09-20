@@ -38,9 +38,12 @@ public class PlayerControllerP2 : MonoBehaviour
         {
             Application.LoadLevel("player1win");
         }
+        if (playerHealth > 10)
+        {
+            playerHealth = 10;
+        }
         if (!offCoolDown)
         {
-            Debug.Log(cooldownTimer);
             cooldownTimer += Time.deltaTime;
             if (cooldownTimer > weaponCoolDown)
             {
@@ -54,7 +57,6 @@ public class PlayerControllerP2 : MonoBehaviour
     {
         if (c.name.Contains("ShotP1"))
         {
-            Debug.Log("P2 is hit");
             playerHealth -= 1;
             Destroy(c.gameObject);
         }

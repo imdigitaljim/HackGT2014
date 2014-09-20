@@ -4,27 +4,39 @@ using System.Collections;
 public class BulletScriptP1 : MonoBehaviour {
 
     private Transform bullet;
+    private tk2dSprite image;
+    private bool isMoving;
     public float speed = -.2f;
-	// Use this for initialization
+    public float range = 1f;
 	void Start () 
     {
         bullet = GetComponent<Transform>();
         bullet.Translate(0, -1f, 0);
-        Destroy(gameObject, 1f);
-
+        Invoke("LeaveDecal", range);
+        isMoving = true;
+        image = GetComponent<tk2dSprite>();
 	}
-	
-	// Update is called once per frame
-	void Update () 
+    void Update()
     {
-        bullet.Translate(0, speed, 0);
-	}
+        if (isMoving)
+        {
+            bullet.Translate(0, speed, 0);
+        }
+    }
     void OnTriggerEnter2D(Collider2D c)
     {
         if (c.tag == "WorldObject")
         {
             Destroy(gameObject);
         }
+    }
+    void LeaveDecal()
+    {
+        isMoving = false;
+        image.spriteId = 7;
+        image.scale = new Vector3(.5f, .5f, 1);
+        Destroy(gameObject.GetComponent<CircleCollider2D>());
+        Destroy(gameObject, 5);
     }
 
 }

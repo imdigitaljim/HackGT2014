@@ -1,27 +1,55 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerControllerP1 : MonoBehaviour {
+public class PlayerControllerP1 : MonoBehaviour
+{
 
     public float speed = 2;
     public int playerHealth;
     private Transform player;
     public Transform shot;
-	// Use this for initialization
-	void Start () 
+    private float cooldownTimer;
+    public float weaponCoolDown;
+    private bool offCoolDown;
+    // Use this for initialization
+    void Start()
     {
+        cooldownTimer = 0;
+        offCoolDown = true;
         playerHealth = 10;
         player = GetComponent<Transform>();
-	}
-	
-	// Update is called once per frame
-	void Update () 
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         rigidbody2D.velocity = Vector2.zero;
         KeyPressMovement();
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (GameStart.combat && offCoolDown)
         {
-            Instantiate(shot, new Vector3(player.position.x, player.localPosition.y, player.position.z), player.rotation);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Instantiate(shot, new Vector3(player.position.x, player.localPosition.y, player.position.z), player.rotation);
+                offCoolDown = false;
+            }
+        }
+        if (playerHealth <= 0)
+        {
+            Application.LoadLevel("player1win");
+        }
+        if (playerHealth > 10)
+        {
+            playerHealth = 10;
+        }
+
+        if (!offCoolDown)
+        {
+            cooldownTimer += Time.deltaTime;
+            if (cooldownTimer > weaponCoolDown)
+            {
+                offCoolDown = true;
+                cooldownTimer = 0;
+            }
         }
     }
 
@@ -60,5 +88,5 @@ public class PlayerControllerP1 : MonoBehaviour {
                 player.eulerAngles = new Vector3(player.rotation.x, player.rotation.y, 0);
             }
         }
-	}
+    }
 }
