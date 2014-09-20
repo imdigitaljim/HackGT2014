@@ -19,4 +19,5 @@ public class BulletScriptP2 : MonoBehaviour {
     {
         bullet.Translate(0, speed, 0);
     }
+
 }

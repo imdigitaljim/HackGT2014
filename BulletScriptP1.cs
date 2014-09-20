@@ -19,5 +19,12 @@ public class BulletScriptP1 : MonoBehaviour {
     {
         bullet.Translate(0, speed, 0);
 	}
+    void OnTriggerEnter2D(Collider2D c)
+    {
+        if (c.tag == "WorldObject")
+        {
+            Destroy(gameObject);
+        }
+    }
 
 }

@@ -4,12 +4,13 @@ using System.Collections;
 public class PlayerControllerP1 : MonoBehaviour {
 
     public float speed = 2;
-    public int playerHealth = 10;
+    public int playerHealth;
     private Transform player;
     public Transform shot;
 	// Use this for initialization
 	void Start () 
     {
+        playerHealth = 10;
         player = GetComponent<Transform>();
 	}
 	
@@ -33,7 +34,6 @@ public class PlayerControllerP1 : MonoBehaviour {
             playerHealth -= 1;
             Destroy(c.gameObject);
         }
-
     }
     void KeyPressMovement()
     {

@@ -18,25 +18,34 @@ public class CameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((player1.position.x > 8 || player1.position.x < -8
+        if ((player1.position.x > 16 || player1.position.x < -16
+     || player1.position.y > 12 || player1.position.y < -12) ||
+     (player2.position.x > 16 || player2.position.x < -16
+     || player2.position.y > 12 || player2.position.y < -12))
+        {
+            if (camera.ZoomFactor > .16f)
+            {
+                camera.ZoomFactor -= .2f * Time.deltaTime;
+            }
+        }
+
+        else if ((player1.position.x > 8 || player1.position.x < -8
             || player1.position.y > 6 || player1.position.y < -6) ||
             (player2.position.x > 8 || player2.position.x < -8
             || player2.position.y > 6 || player2.position.y < -6))
         {
             if (camera.ZoomFactor > .25f)
             {
-                camera.ZoomFactor += -.1f * Time.deltaTime;
+                camera.ZoomFactor -= .2f * Time.deltaTime;
             }
         }
         else
         {
             if (camera.ZoomFactor < .5f)
             {
-                camera.ZoomFactor += +.1f * Time.deltaTime;
+                camera.ZoomFactor += .2f * Time.deltaTime;
             }
-
         }
-
 
     }
 }

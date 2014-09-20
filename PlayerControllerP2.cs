@@ -5,11 +5,12 @@ public class PlayerControllerP2 : MonoBehaviour {
 
 	// Use this for initialization
     public float speed = 2;
-    public int playerHealth = 10;
+    public int playerHealth;
     private Transform player;
     public Transform shot;
     void Start()
     {
+        playerHealth = 10;
         player = GetComponent<Transform>();
 
     }
