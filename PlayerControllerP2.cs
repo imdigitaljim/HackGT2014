@@ -5,17 +5,39 @@ public class PlayerControllerP2 : MonoBehaviour
 {
 
     // Use this for initialization
-    public float speed = 2;
+    public float speed;
     public int playerHealth;
-    private bool offCoolDown;
+
     private Transform player;
     public Transform shot;
+
     private float cooldownTimer;
-    public float weaponCoolDown;
+    public float speedTimer;
+    public float rangeTimer;
+
+
+    public bool speedBoost;
+    public bool rangeBoost;
+
+    private bool offCoolDown;
+    private float weaponCoolDown;
+
     void Start()
     {
+        speedTimer = 0;
+        rangeTimer = 0;
+        weaponCoolDown = .5f;
         cooldownTimer = 0;
+
+        speedBoost = false;
+        rangeBoost = false;
+
+
+
         offCoolDown = true;
+
+
+
         playerHealth = 10;
         player = GetComponent<Transform>();
 
@@ -51,6 +73,26 @@ public class PlayerControllerP2 : MonoBehaviour
                 cooldownTimer = 0;
             }
         }
+        if (speedBoost)
+        {
+            speedTimer += Time.deltaTime;
+            if (speedTimer > 10)
+            {
+                speedBoost = false;
+                speedTimer = 0;
+            }
+        }
+        if (rangeBoost)
+        {
+            rangeTimer += Time.deltaTime;
+            if (rangeTimer > 10)
+            {
+                rangeBoost = false;
+                rangeTimer = 0;
+            }
+
+
+        }
     }
 
     void OnTriggerEnter2D(Collider2D c)
@@ -69,8 +111,15 @@ public class PlayerControllerP2 : MonoBehaviour
 
         if (x != 0 || y != 0)
         {
+            if (speedBoost)
+            {
+                rigidbody2D.velocity = new Vector2(x * speed * 1.5f, y * speed * 1.5f);
+            }
+            else
+            {
+                rigidbody2D.velocity = new Vector2(x * speed, y * speed);
+            }
 
-            rigidbody2D.velocity = new Vector2(x * speed, y * speed);
             if (x < 0)
             {
                 player.eulerAngles = new Vector3(player.rotation.x, player.rotation.y, 270);

@@ -1,16 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class BulletScriptP2 : MonoBehaviour {
 
     private Transform bullet;
     private tk2dSprite image;
     private bool isMoving;
-    public float speed = -.2f;
-    public float range = 1f;
+    private float speed = -.3f;
+    private float range = 1;
+    private bool longshot;
     // Use this for initialization
     void Start()
     {
+        longshot = GameObject.Find("Player2").GetComponent<PlayerControllerP2>().rangeBoost;
+        if (longshot)
+        {
+            range = 3;
+        }
         bullet = GetComponent<Transform>();
         bullet.Translate(0, -1f, 0);
         Invoke("LeaveDecal", range);
@@ -23,7 +30,7 @@ public class BulletScriptP2 : MonoBehaviour {
     {
         if (isMoving)
         {
-            bullet.Translate(0, speed, 0);
+            bullet.Translate(0, speed - Convert.ToInt32(longshot) * .5f, 0);
         }
     }
     void OnTriggerEnter2D(Collider2D c)

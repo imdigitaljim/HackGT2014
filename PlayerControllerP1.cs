@@ -4,18 +4,36 @@ using System.Collections;
 public class PlayerControllerP1 : MonoBehaviour
 {
 
-    public float speed = 2;
+    public float speed;
     public int playerHealth;
+
     private Transform player;
     public Transform shot;
+
     private float cooldownTimer;
-    public float weaponCoolDown;
+    public float speedTimer;
+    public float rangeTimer;
+
+
+    public bool speedBoost;
+    public bool rangeBoost;
+
     private bool offCoolDown;
+    private float weaponCoolDown;
     // Use this for initialization
     void Start()
     {
+        speedTimer = 0;
+        rangeTimer = 0;
         cooldownTimer = 0;
+        weaponCoolDown = .5f;
+
+        speedBoost = false;
+        rangeBoost = false;
         offCoolDown = true;
+
+
+
         playerHealth = 10;
         player = GetComponent<Transform>();
     }
@@ -23,6 +41,7 @@ public class PlayerControllerP1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         rigidbody2D.velocity = Vector2.zero;
         KeyPressMovement();
         if (GameStart.combat && offCoolDown)
@@ -35,7 +54,7 @@ public class PlayerControllerP1 : MonoBehaviour
         }
         if (playerHealth <= 0)
         {
-            Application.LoadLevel("player1win");
+            Application.LoadLevel("player2win");
         }
         if (playerHealth > 10)
         {
@@ -51,6 +70,26 @@ public class PlayerControllerP1 : MonoBehaviour
                 cooldownTimer = 0;
             }
         }
+        if (speedBoost)
+        {
+            speedTimer += Time.deltaTime;
+            if (speedTimer > 10)
+            {
+                speedBoost = false;
+                speedTimer = 0;
+            }
+        }
+        if (rangeBoost)
+        {
+            rangeTimer += Time.deltaTime;
+            if (rangeTimer > 10)
+            {
+                rangeBoost = false;
+                rangeTimer = 0;
+            }
+
+
+        }
     }
 
 
@@ -58,7 +97,6 @@ public class PlayerControllerP1 : MonoBehaviour
     {
         if (c.name.Contains("ShotP2"))
         {
-            Debug.Log("P1 is hit");
             playerHealth -= 1;
             Destroy(c.gameObject);
         }
@@ -70,7 +108,14 @@ public class PlayerControllerP1 : MonoBehaviour
 
         if (x != 0 || y != 0)
         {
-            rigidbody2D.velocity = new Vector2(x * speed, y * speed);
+            if (speedBoost)
+            {
+                rigidbody2D.velocity = new Vector2(x * speed * 2f, y * speed * 2f);
+            }
+            else
+            {
+                rigidbody2D.velocity = new Vector2(x * speed, y * speed);
+            }
             if (x < 0)
             {
                 player.eulerAngles = new Vector3(player.rotation.x, player.rotation.y, 270);

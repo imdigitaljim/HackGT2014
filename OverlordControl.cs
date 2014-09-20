@@ -8,12 +8,23 @@ public class OverlordControl : MonoBehaviour
     // Use this for initialization
     public Transform barrier;
     public Transform lifesteal;
+    public Transform speedboost;
+    public Transform range;
+
+
     public static float gameTime;
-    public float lifeStealSpawnFrequency = 60;
+
+
+    public float lifeStealSpawnFrequency;
+    public float speedSpawnFrequency;
+    public float rangeFrequency;
+
+    private float powerUpCooldownCount;
     private int barrierCount = 0;
     private bool powerUpSpawned;
-    private float powerUpCooldownCount;
     public float powerUpCooldown = 3;
+
+
     void Start()
     {
         powerUpCooldownCount = 0;
@@ -40,12 +51,27 @@ public class OverlordControl : MonoBehaviour
         gameTime += Time.deltaTime;
         if (!powerUpSpawned)
         {
-            if (gameTime % lifeStealSpawnFrequency < 1 && gameTime > 0)
+            if (gameTime % lifeStealSpawnFrequency < 1 && gameTime > 5)
             {
                 powerUpSpawned = true;
                 float x = Random.Range(-26f, 26f);
                 float y = Random.Range(-18f, 18f);
                 Instantiate(lifesteal, new Vector3(x, y), Quaternion.identity);
+            }
+
+            if (gameTime % speedSpawnFrequency < 1 && gameTime > 5)
+            {
+                powerUpSpawned = true;
+                float x = Random.Range(-26f, 26f);
+                float y = Random.Range(-18f, 18f);
+                Instantiate(speedboost, new Vector3(x, y), Quaternion.identity);
+            }
+            if (gameTime % rangeFrequency < 1 && gameTime > 5)
+            {
+                powerUpSpawned = true;
+                float x = Random.Range(-26f, 26f);
+                float y = Random.Range(-18f, 18f);
+                Instantiate(range, new Vector3(x, y), Quaternion.identity);
             }
         }
         if (powerUpSpawned)

@@ -25,7 +25,7 @@ public class CameraScript : MonoBehaviour
         {
             if (camera.ZoomFactor > .16f)
             {
-                camera.ZoomFactor -= .2f * Time.deltaTime;
+                camera.ZoomFactor -= .4f * Time.deltaTime;
             }
         }
 
@@ -36,14 +36,14 @@ public class CameraScript : MonoBehaviour
         {
             if (camera.ZoomFactor > .25f)
             {
-                camera.ZoomFactor -= .2f * Time.deltaTime;
+                camera.ZoomFactor -= .4f * Time.deltaTime;
             }
         }
         else
         {
             if (camera.ZoomFactor < .5f)
             {
-                camera.ZoomFactor += .2f * Time.deltaTime;
+                camera.ZoomFactor += .4f * Time.deltaTime;
             }
         }
 
