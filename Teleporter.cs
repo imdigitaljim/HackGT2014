@@ -28,7 +28,6 @@ public class Teleporter : MonoBehaviour {
         {
             randomTP = Random.Range(0, 3);
         }
-        Debug.Log(randomTP);
         c.transform.position = tpPosition[randomTP];
     }
 }

@@ -10,6 +10,7 @@ public class OverlordControl : MonoBehaviour
     public Transform lifesteal;
     public Transform speedboost;
     public Transform range;
+    public Transform shield;
 
 
     public static float gameTime;
@@ -18,6 +19,7 @@ public class OverlordControl : MonoBehaviour
     public float lifeStealSpawnFrequency;
     public float speedSpawnFrequency;
     public float rangeFrequency;
+    public float shieldFrequency;
 
     private float powerUpCooldownCount;
     private int barrierCount = 0;
@@ -72,6 +74,13 @@ public class OverlordControl : MonoBehaviour
                 float x = Random.Range(-26f, 26f);
                 float y = Random.Range(-18f, 18f);
                 Instantiate(range, new Vector3(x, y), Quaternion.identity);
+            }
+            if (gameTime % shieldFrequency < 1 && gameTime > 5)
+            {
+                powerUpSpawned = true;
+                float x = Random.Range(-26f, 26f);
+                float y = Random.Range(-18f, 18f);
+                Instantiate(shield, new Vector3(x, y), Quaternion.identity);
             }
         }
         if (powerUpSpawned)

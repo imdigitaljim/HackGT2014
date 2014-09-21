@@ -13,10 +13,12 @@ public class PlayerControllerP1 : MonoBehaviour
     private float cooldownTimer;
     public float speedTimer;
     public float rangeTimer;
+    public float shieldTimer;
 
 
     public bool speedBoost;
     public bool rangeBoost;
+    public bool shieldBoost;
 
     private bool offCoolDown;
     private float weaponCoolDown;
@@ -24,10 +26,12 @@ public class PlayerControllerP1 : MonoBehaviour
     void Start()
     {
         speedTimer = 0;
+        shieldTimer = 0;
         rangeTimer = 0;
         cooldownTimer = 0;
-        weaponCoolDown = .5f;
+        weaponCoolDown = .3f;
 
+        shieldBoost = false;
         speedBoost = false;
         rangeBoost = false;
         offCoolDown = true;
@@ -43,12 +47,16 @@ public class PlayerControllerP1 : MonoBehaviour
     {
 
         rigidbody2D.velocity = Vector2.zero;
-        KeyPressMovement();
+        if (OverlordControl.gameTime > 3)
+        {
+            KeyPressMovement();
+        }
         if (GameStart.combat && offCoolDown)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Instantiate(shot, new Vector3(player.position.x, player.localPosition.y, player.position.z), player.rotation);
+                GetComponent<AudioSource>().Play();
                 offCoolDown = false;
             }
         }
@@ -91,13 +99,14 @@ public class PlayerControllerP1 : MonoBehaviour
 
         }
     }
-
-
     void OnTriggerEnter2D(Collider2D c)
     {
         if (c.name.Contains("ShotP2"))
         {
-            playerHealth -= 1;
+            if (transform.childCount == 0)
+            {
+                playerHealth -= 1;
+            }
             Destroy(c.gameObject);
         }
     }

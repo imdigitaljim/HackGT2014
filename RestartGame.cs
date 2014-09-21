@@ -14,7 +14,7 @@ public class RestartGame : MonoBehaviour {
     {
 	    if (Input.anyKeyDown)
         {
-            Application.LoadLevel("main_arena");
+            Application.LoadLevel("intro");
         }
 	}
 }
