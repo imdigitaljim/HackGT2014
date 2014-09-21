@@ -11,7 +11,6 @@ public class ShieldBoost : MonoBehaviour
     void Start()
     {
         isPickedUp = false;
-
     }
 
     // Update is called once per frame

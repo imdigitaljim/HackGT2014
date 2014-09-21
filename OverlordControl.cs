@@ -11,25 +11,38 @@ public class OverlordControl : MonoBehaviour
     public Transform speedboost;
     public Transform range;
     public Transform shield;
-
+    public Transform huge;
 
     public static float gameTime;
 
 
-    public float lifeStealSpawnFrequency;
-    public float speedSpawnFrequency;
-    public float rangeFrequency;
-    public float shieldFrequency;
+    private float lifeStealSpawnFrequency;
+    private float speedSpawnFrequency;
+    private float rangeFrequency;
+    private float shieldFrequency;
+    private float hugeFrequency;
 
+    private float hugeTimer;
+    private float hugeLength;
     private float powerUpCooldownCount;
     private int barrierCount = 0;
     private bool powerUpSpawned;
+    public bool hugeRound;
     public float powerUpCooldown = 3;
 
 
     void Start()
     {
+        hugeLength = Random.Range(5, 8);
+        hugeFrequency = Random.Range(10, 60);
+        shieldFrequency = Random.Range(10, 60);
+        rangeFrequency = Random.Range(10, 60);
+        speedSpawnFrequency = Random.Range(10, 60);
+        lifeStealSpawnFrequency = Random.Range(10, 60);
+
         powerUpCooldownCount = 0;
+        hugeRound = false;
+        hugeTimer = 0;
         powerUpSpawned = false;
         barrierCount = Random.Range(8, 20);
         for (int i = 0; i < barrierCount; i++)
@@ -83,6 +96,28 @@ public class OverlordControl : MonoBehaviour
                 Instantiate(shield, new Vector3(x, y), Quaternion.identity);
             }
         }
+        if (!hugeRound)
+        {
+            hugeTimer += Time.deltaTime;
+            if (hugeTimer > hugeFrequency)
+            {
+                Instantiate(huge, Vector3.zero, Quaternion.identity);
+                hugeRound = true;
+                hugeTimer = 0;
+            }
+        }
+        else
+        {
+            hugeTimer += Time.deltaTime;
+
+            if (hugeTimer > hugeLength)
+            {
+                hugeRound = false;
+                hugeTimer = 0;
+            }
+        }
+
+
         if (powerUpSpawned)
         {
             powerUpCooldownCount += Time.deltaTime;

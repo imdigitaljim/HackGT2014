@@ -9,13 +9,13 @@ public class PlayerControllerP1 : MonoBehaviour
 
     private Transform player;
     public Transform shot;
-
+    private OverlordControl overlord;
     private float cooldownTimer;
     public float speedTimer;
     public float rangeTimer;
     public float shieldTimer;
 
-
+    public bool hugeStatus;
     public bool speedBoost;
     public bool rangeBoost;
     public bool shieldBoost;
@@ -35,11 +35,12 @@ public class PlayerControllerP1 : MonoBehaviour
         speedBoost = false;
         rangeBoost = false;
         offCoolDown = true;
-
+        hugeStatus = false;
 
 
         playerHealth = 10;
         player = GetComponent<Transform>();
+        overlord = GameObject.Find("OVERLORD").GetComponent<OverlordControl>();
     }
 
     // Update is called once per frame
@@ -95,8 +96,32 @@ public class PlayerControllerP1 : MonoBehaviour
                 rangeBoost = false;
                 rangeTimer = 0;
             }
+        }
+        if (shieldBoost)
+        {
+            shieldTimer += Time.deltaTime;
+            if (shieldTimer > 10)
+            {
+                shieldBoost = false;
+                shieldTimer = 0;
+            }
+        }
 
-
+        if (overlord.hugeRound)
+        {
+            if (!hugeStatus)
+            {
+                gameObject.transform.localScale = new Vector3(2, 2, 1);
+                hugeStatus = true;
+            }
+        }
+        else
+        {
+            if (hugeStatus)
+            {
+                gameObject.transform.localScale = new Vector3(1, 1, 1);
+                hugeStatus = false;
+            }
         }
     }
     void OnTriggerEnter2D(Collider2D c)

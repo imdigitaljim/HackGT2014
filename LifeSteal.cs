@@ -32,7 +32,7 @@ public class LifeSteal : MonoBehaviour
         {
             GetComponent<AudioSource>().Play();
             c.GetComponent<PlayerControllerP2>().playerHealth += 1;
-            GameObject.Find("Player2").GetComponent<PlayerControllerP1>().playerHealth -= 1;
+            GameObject.Find("Player1").GetComponent<PlayerControllerP1>().playerHealth -= 1;
         }
         Destroy(gameObject, .1f);
 

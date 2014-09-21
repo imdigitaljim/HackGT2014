@@ -46,6 +46,6 @@ public class BulletScriptP2 : MonoBehaviour {
         image.spriteId = 5;
         image.scale = new Vector3(1, 1, 1);
         Destroy(gameObject.GetComponent<CircleCollider2D>());
-        Destroy(gameObject, 5);
+        Destroy(gameObject, 3);
     }
 }
