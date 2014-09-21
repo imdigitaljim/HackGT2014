@@ -12,6 +12,7 @@ public class OverlordControl : MonoBehaviour
     public Transform range;
     public Transform shield;
     public Transform huge;
+    public Transform monkey;
 
     public static float gameTime;
 
@@ -21,6 +22,7 @@ public class OverlordControl : MonoBehaviour
     private float rangeFrequency;
     private float shieldFrequency;
     private float hugeFrequency;
+    private float monkeySpawnFrequency;
 
     private float hugeTimer;
     private float hugeLength;
@@ -33,13 +35,14 @@ public class OverlordControl : MonoBehaviour
 
     void Start()
     {
+        gameTime = 0;
         hugeLength = Random.Range(5, 8);
         hugeFrequency = Random.Range(10, 60);
         shieldFrequency = Random.Range(10, 60);
         rangeFrequency = Random.Range(10, 60);
         speedSpawnFrequency = Random.Range(10, 60);
         lifeStealSpawnFrequency = Random.Range(10, 60);
-
+        monkeySpawnFrequency = Random.Range(10, 60);
         powerUpCooldownCount = 0;
         hugeRound = false;
         hugeTimer = 0;
@@ -87,6 +90,13 @@ public class OverlordControl : MonoBehaviour
                 float x = Random.Range(-26f, 26f);
                 float y = Random.Range(-18f, 18f);
                 Instantiate(range, new Vector3(x, y), Quaternion.identity);
+            }
+            if (gameTime % monkeySpawnFrequency < 1 && gameTime > 5)
+            {
+                powerUpSpawned = true;
+                float x = Random.Range(-26f, 26f);
+                float y = Random.Range(-18f, 18f);
+                Instantiate(monkey, new Vector3(x, y), Quaternion.identity);
             }
             if (gameTime % shieldFrequency < 1 && gameTime > 5)
             {

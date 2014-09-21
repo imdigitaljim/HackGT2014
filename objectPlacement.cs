@@ -25,7 +25,6 @@ public class objectPlacement : MonoBehaviour
     {
         if (OverlordControl.gameTime < 1)
         {
-            Debug.Log("replace");
             float x = Random.Range(-26f, 26f);
             float y = Random.Range(-18f, 18f);
 

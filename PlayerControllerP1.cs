@@ -14,20 +14,23 @@ public class PlayerControllerP1 : MonoBehaviour
     public float speedTimer;
     public float rangeTimer;
     public float shieldTimer;
+    public float monkeyTimer;
 
     public bool hugeStatus;
     public bool speedBoost;
     public bool rangeBoost;
     public bool shieldBoost;
+    public bool monkeyBoost;
 
     private bool offCoolDown;
-    private float weaponCoolDown;
+    public float weaponCoolDown;
     // Use this for initialization
     void Start()
     {
         speedTimer = 0;
         shieldTimer = 0;
         rangeTimer = 0;
+        monkeyTimer = 0;
         cooldownTimer = 0;
         weaponCoolDown = .3f;
 
@@ -48,13 +51,13 @@ public class PlayerControllerP1 : MonoBehaviour
     {
 
         rigidbody2D.velocity = Vector2.zero;
-        if (OverlordControl.gameTime > 3)
+        if (OverlordControl.gameTime > 2)
         {
             KeyPressMovement();
         }
         if (GameStart.combat && offCoolDown)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space))
             {
                 Instantiate(shot, new Vector3(player.position.x, player.localPosition.y, player.position.z), player.rotation);
                 GetComponent<AudioSource>().Play();
@@ -106,6 +109,16 @@ public class PlayerControllerP1 : MonoBehaviour
                 shieldTimer = 0;
             }
         }
+        if (monkeyBoost)
+        {
+            monkeyTimer += Time.deltaTime;
+            if (monkeyTimer > 10)
+            {
+                monkeyBoost = false;
+                weaponCoolDown = .3f;
+                monkeyTimer = 0;
+            }
+        }
 
         if (overlord.hugeRound)
         {
@@ -154,15 +167,15 @@ public class PlayerControllerP1 : MonoBehaviour
             {
                 player.eulerAngles = new Vector3(player.rotation.x, player.rotation.y, 270);
             }
-            else if (x > 0)
+            if (x > 0)
             {
                 player.eulerAngles = new Vector3(player.rotation.x, player.rotation.y, 90);
             }
-            else if (y > 0)
+            if (y > 0)
             {
                 player.eulerAngles = new Vector3(player.rotation.x, player.rotation.y, 180);
             }
-            else if (y < 0)
+            if (y < 0)
             {
                 player.eulerAngles = new Vector3(player.rotation.x, player.rotation.y, 0);
             }

@@ -4,7 +4,8 @@ using System.Collections;
 public class HugeBoost : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+    {
         Destroy(gameObject, 5);
 	}
 	
